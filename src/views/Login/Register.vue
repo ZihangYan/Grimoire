@@ -74,12 +74,18 @@
        previewUrl.value = url
     }
 
-     const register = async () => {
+    const register = async () => {
         const userInfo: MageInfo = {
             mageName: mageName.value,
             pfp: selectedFile.value || previewUrl.value || defaultPfp[0]!
         }
         const newID =  await db.mageInfo.add(userInfo)
+        await db.bookshelves.add({
+            mageId: newID,
+            name: 'FirstShelf',
+            coverTheme: 'default',
+            createdAt: Date.now(),
+        })
     }
 
     async function checkMageInfo() {
