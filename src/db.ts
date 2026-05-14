@@ -9,17 +9,18 @@ export interface MageInfo {
 export interface Bookshelf {
     id?: number;
     mageId: number;     
-    name: string;       
+    name: string;     
+    description ?: string;  
     coverTheme: string; 
     createdAt: number;
 }
 
-// 2. 书本/笔记契约
 export interface Book {
     id?: number;
     bookshelfId: number; 
     mageId: number;      
-    title: string;       
+    title: string;    
+    summary ?: string;
     content: string;     
     updatedAt: number; 
 }

@@ -6,8 +6,8 @@
             </div>
             <div class="flex flex-col gap-1">
                 <div class="flex relative">
-                    <input type="text" class="w-56 border rounded hover:bg-gray-200" v-model="mageName" @input="hasName = false">
-                    <div v-show="hasName" class="text-red-500 absolute left-full ml-2 whitespace-nowrap">Please enter your mage-name!</div>
+                    <input type="text" class="w-56 border rounded hover:bg-gray-200" v-model="mageName" @input="showNameErro = false">
+                    <div v-show="showNameErro" class="text-red-500 absolute left-full ml-2 whitespace-nowrap">Please enter your mage-name!</div>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
 
     const router = useRouter()
     const mageName = ref('')
-    const hasName = ref(false)
+    const showNameErro = ref(false)
     const showPassword = ref(false)
     const defaultPfp = [
         new URL('@/assets/pfp/default/IMG_1.jpg', import.meta.url).href,
@@ -90,7 +90,7 @@
 
     async function checkMageInfo() {
         if(!mageName.value) {
-            hasName.value = true
+            showNameErro.value = true
         }
         if(mageName.value) {
             await register()

@@ -81,7 +81,7 @@
 
     function jumpMageSpace(account: MageInfo) {
         mageStore.login(account)
-        router.push('/library')
+        router.push('/home')
     }
 
     onMounted(() => {
