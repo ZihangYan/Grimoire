@@ -8,35 +8,38 @@
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
-          
-          <div @click="handleCreate"
-               class="group relative aspect-[3/4] rounded-xl border-2 border-dashed border-stone-300 flex flex-col items-center justify-center cursor-pointer transition-all duration-500 hover:border-amber-400 hover:bg-amber-50/30">
-            <span class="text-4xl text-stone-300 transition-all duration-500 group-hover:text-amber-500 group-hover:scale-110 group-hover:rotate-90">+</span>
-            <span class="mt-4 text-[10px] font-bold tracking-[0.2em] text-stone-400 group-hover:text-amber-600 transition-colors duration-500">CONSTRUCT</span>
-            <div class="absolute inset-0 rounded-xl bg-amber-400/0 group-hover:bg-amber-400/5 transition-colors duration-700 pointer-events-none"></div>
-          </div>
+  
+  <div @click="openCreateModal"
+       class="group relative aspect-[4/5] rounded-xl border-2 border-dashed border-stone-300 bg-stone-50/50 flex flex-col items-center justify-center cursor-pointer transition-all duration-500 hover:border-amber-400 hover:bg-amber-50/50 hover:shadow-lg hover:-translate-y-1">
+    <span class="text-4xl text-stone-300 transition-all duration-500 group-hover:text-amber-500 group-hover:scale-110">+</span>
+    <span class="mt-4 text-[10px] font-bold tracking-[0.2em] text-stone-400 group-hover:text-amber-600 transition-colors duration-500">CONSTRUCT</span>
+  </div>
 
-          <div v-for="shelf in bookshelves" :key="shelf.id"
-               @click="openBookshelf(shelf.id!)"
-               class="group relative aspect-[3/4] rounded-xl cursor-pointer overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(212,175,55,0.15)] shadow-md">
-            
-            <div class="absolute inset-0 bg-gradient-to-br from-stone-800 to-stone-900 transition-transform duration-1000 group-hover:scale-110"></div>
-            
-            <div class="absolute top-4 right-4 w-8 h-8 opacity-10 group-hover:opacity-30 transition-opacity duration-500">
-                <div class="w-full h-full border border-white rounded-full"></div>
-            </div>
+  <div v-for="shelf in bookshelves" :key="shelf.id"
+       @click="openBookshelf(shelf.id!)"
+       class="group relative aspect-[4/5] rounded-xl cursor-pointer overflow-hidden bg-[#F5F5F0] border border-stone-200 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(212,175,55,0.12)]">
+       <button @click.stop="confirmDelete(shelf.id!, shelf.name)" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-red-500/10 text-red-500/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-red-500 hover:text-white z-30">
+            <span class="text-sm">✕</span>
+       </button>
+    <div class="absolute inset-0 bg-gradient-to-b from-stone-300/30 to-transparent shadow-[inset_0_10px_20px_rgba(0,0,0,0.03)] pointer-events-none"></div>
+    
+    <div class="absolute bottom-[72px] left-6 right-6 h-1/2 flex items-end justify-center gap-1.5 opacity-60 group-hover:opacity-100 transition-all duration-500 group-hover:bottom-[76px]">
+      <div class="w-1/4 h-full bg-stone-400 rounded-sm shadow-sm border-l border-white/40"></div>
+      <div class="w-1/5 h-[85%] bg-amber-800/80 rounded-sm shadow-sm border-l border-white/40"></div>
+      <div class="w-1/6 h-[90%] bg-stone-500 rounded-sm shadow-sm border-l border-white/40"></div>
+      <div class="w-1/5 h-[80%] bg-stone-600 rounded-sm shadow-sm border-l border-white/40 transform rotate-6 origin-bottom-left ml-1"></div>
+    </div>
 
-            <div class="absolute left-0 top-0 bottom-0 w-4 bg-black/30 border-r border-white/10 z-10 shadow-[inset_-2px_0_10px_rgba(0,0,0,0.5)]"></div>
-            
-            <div class="absolute inset-x-0 bottom-0 h-1/3 bg-white/10 backdrop-blur-md border-t border-white/20 p-5 flex flex-col justify-end translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-              <h3 class="text-white text-lg font-bold tracking-wider truncate drop-shadow-md">{{ shelf.name }}</h3>
-              <span class="text-[9px] text-stone-300 tracking-[0.2em] mt-2 opacity-80">{{ new Date(shelf.createdAt).toLocaleDateString() }}</span>
-            </div>
-            
-            <div class="absolute inset-0 rounded-xl border border-white/10 transition-colors duration-500 group-hover:border-amber-400/40 z-20 pointer-events-none"></div>
-          </div>
+    <div class="absolute bottom-16 inset-x-0 h-2 bg-stone-200 shadow-[0_2px_4px_rgba(0,0,0,0.05)] border-t border-white/50 group-hover:bg-amber-100 transition-colors duration-500"></div>
 
-        </div>
+    <div class="absolute bottom-0 inset-x-0 h-16 bg-white flex flex-col justify-center px-5 z-20 group-hover:bg-amber-50/30 transition-colors duration-500">
+      <h3 class="text-stone-800 text-sm font-bold tracking-wider truncate">{{ shelf.name }}</h3>
+      <span class="text-[9px] text-stone-400 tracking-[0.2em] mt-1">{{ new Date(shelf.createdAt).toLocaleDateString() }}</span>
+    </div>
+    
+  </div>
+
+</div>
       </div>
 
       <div v-else class="p-12 max-w-7xl mx-auto">
@@ -44,7 +47,7 @@
           <div class="w-8 h-8 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 group-hover:border-amber-400 group-hover:text-amber-500 group-hover:bg-amber-50 transition-all duration-300">
             <span class="text-sm -ml-0.5">←</span>
           </div>
-          <span class="text-[10px] font-bold tracking-[0.2em] text-stone-400 group-hover:text-amber-600 transition-colors">RETURN TO HALL</span>
+          <span class="text-[10px] font-bold tracking-[0.2em] text-stone-400 group-hover:text-amber-600 transition-colors">RETURN TO LIBRARY</span>
         </div>
         
         <div class="border-t border-stone-100 pt-8">
@@ -53,41 +56,126 @@
         </div>
       </div>
     </transition>
+
+    <Teleport to="body">
+      <transition name="modal">
+        <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center font-serif">
+          <div class="absolute inset-0 bg-stone-900/40 backdrop-blur-sm" @click="closeModal"></div>
+          
+          <div class="relative bg-[#FDFDFB] w-full max-w-md p-8 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-amber-900/10 transform transition-all">
+            <h3 class="text-2xl text-stone-800 mb-2">Summon Bookshelf</h3>
+            <p class="text-xs text-stone-400 tracking-wider mb-6">INJECT A TRUE NAME FOR YOUR NEW COLLECTION</p>
+            
+            <input 
+              v-model="newShelfName" 
+              @keyup.enter="confirmCreate"
+              type="text" 
+              placeholder="e.g. Forbidden Spells..."
+              class="w-full bg-transparent border-b-2 border-stone-200 py-2 text-stone-700 text-lg focus:outline-none focus:border-amber-400 transition-colors placeholder:text-stone-300 mb-8"
+              ref="shelfInput"
+            >
+            
+            <div class="flex justify-end gap-4">
+              <button @click="closeModal" class="px-5 py-2 text-sm text-stone-500 hover:text-stone-800 transition-colors tracking-widest">
+                CANCEL
+              </button>
+              <button @click="confirmCreate" :disabled="!newShelfName.trim()" class="px-5 py-2 text-sm bg-amber-50 text-amber-700 border border-amber-200 rounded-lg hover:bg-amber-100 transition-colors tracking-widest disabled:opacity-50 disabled:cursor-not-allowed">
+                CONSTRUCT
+              </button>
+            </div>
+          </div>
+        </div>
+      </transition>
+      <transition name="modal">
+        <div v-if="showDeleteModal" class="fixed inset-0 z-50 flex items-center justify-center font-serif">
+            <div class="absolute inset-0 bg-stone-900/600 backdrop-blur-sm" @click="cancelDelete"></div>
+            <div class="relative bg-[#FDFDF8] w-full max-w-md p-8 rounded-2xl shadow-[0_20px_60px_rgba(220,38,38,0.15)] border border-red-900/10 transform transition-all">
+                <div class="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mb-4">
+                    <span class="text-2xl text-red-500">!</span>
+                </div>
+                <h3 class="text-2xl text-stone-500 mb-6 leading-relaxed">Shatter Bookshelf?</h3>
+                <p class="text-sm text-stone-500 mb-6 leading-relaxed">
+                    Are you absolutely certain you wish to destroy <strong class="text-stone-800">"{{ bookshelfToDelete?.name }}"</strong>?<br/>
+                    <span class="text-red-500 text-xs tracking-wider uppercase mt-2 block">All enclosed spells will be lost forever.</span>
+                </p>
+                <div class="flex justify-end gap-4 mt-8 border-t border-stone-100 pt-6">
+                    <button @click="cancelDelete" class="px-5 py-2 text-sm text-stone-500 hover:text-stone-800 transition-colors tracking-widest">
+                        PRESERVE
+                    </button>
+                    <button @click="executeDelete" class="px-5 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 shadow-md shadow-red-500/20 transition-all tracking-widest">
+                        DESTROY
+                    </button>
+                </div>
+            </div>
+        </div>
+      </transition>
+    </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, toRef } from 'vue'
-import { useBookShelves } from '@/hooks/useLibrary'
+    import { ref, toRef, nextTick } from 'vue'
+    import { useBookShelves } from '@/hooks/useLibrary'
 
+    const props = defineProps<{
+    mageId?: number
+    }>()
 
-const props = defineProps<{
-  mageId?: number
-}>()
+    const mageIdRef = toRef(props, 'mageId')
 
+    const { bookshelves, addBookshelf, deleteBookshelf } = useBookShelves(mageIdRef)
 
-const mageIdRef = toRef(props, 'mageId')
+    const selectedBookshelfId = ref<number | undefined>(undefined)
 
+    const showModal = ref(false)
+    const newShelfName = ref('')
+    const shelfInput = ref<HTMLInputElement | null>(null)
 
-const { bookshelves, addBookshelf } = useBookShelves(mageIdRef)
+    const openCreateModal = async () => {
+        showModal.value = true
+        await nextTick()
+        shelfInput.value?.focus()
+    }
 
+    const closeModal = () => {
+        showModal.value = false
+        newShelfName.value = ''
+    }
 
-const selectedBookshelfId = ref<number | undefined>(undefined)
+    const confirmCreate = async () => {
+        if (newShelfName.value.trim()) {
+            await addBookshelf(newShelfName.value.trim(), 'default')
+            closeModal()
+        }
+    }
 
+    const openBookshelf = (id: number) => {
+        selectedBookshelfId.value = id
+    }
 
-const handleCreate = async () => {
-  const name = prompt('为新书架注入一个真名：')
-  if (name && name.trim()) {
-    await addBookshelf(name.trim(), 'default')
-  }
-}
+    const showDeleteModal = ref(false)
+    const bookshelfToDelete = ref<{id: number, name: string} | null>(null)
 
-const openBookshelf = (id: number) => {
-  selectedBookshelfId.value = id
-}
+    const confirmDelete = (id: number, name: string) => {
+        bookshelfToDelete.value = {id, name}
+        showDeleteModal.value = true
+    }
+
+    const cancelDelete = () => {
+        showDeleteModal.value = false
+        bookshelfToDelete.value = null
+    }
+
+    const executeDelete = async () => {
+        if(bookshelfToDelete.value) {
+            await deleteBookshelf(bookshelfToDelete.value.id)
+            cancelDelete()
+        }
+    }
 </script>
 
 <style scoped>
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.4s ease, transform 0.4s ease;
@@ -99,5 +187,22 @@ const openBookshelf = (id: number) => {
 .fade-leave-to {
   opacity: 0;
   transform: translateY(-10px);
+}
+
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+.modal-enter-active .relative,
+.modal-leave-active .relative {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* 回弹特效 */
+}
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+.modal-enter-from .relative,
+.modal-leave-to .relative {
+  transform: scale(0.95) translateY(-10px);
 }
 </style>

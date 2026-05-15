@@ -42,9 +42,18 @@ export function useBookShelves(mageId: Ref<number | undefined>) {
         })
     }
 
+    const deleteBookshelf = async (id: number) => {
+        await db.transaction('rw', db.bookshelves, db.books, async () => {
+            await db.books.where('bookshelfId').equals(id).delete()
+            await db.bookshelves.delete(id)
+        })
+    }
+
+
     return {
         bookshelves,
-        addBookshelf
+        addBookshelf,
+        deleteBookshelf
     }
 }
 
