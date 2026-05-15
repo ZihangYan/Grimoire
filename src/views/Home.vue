@@ -5,7 +5,7 @@
         <div class="group relative bg-white p-4 rounded-2xl border border-stone-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-500 hover:shadow-[0_8px_30px_rgba(212,175,55,0.08)]">
           <div class="flex items-center gap-4">
             <div class="relative">
-              <img :src="mage?.pfp" 
+              <img :src="displayPfp" 
                    class="w-12 h-12 rounded-full object-cover border border-stone-100 transition-transform duration-500 group-hover:scale-110">
               <div class="absolute -inset-1 rounded-full border border-amber-400/20 animate-pulse"></div>
             </div>
@@ -43,7 +43,7 @@
 
 
 <script setup lang="ts">
-    import { ref,  onMounted } from 'vue'
+    import { ref,  onMounted, computed } from 'vue'
     import { db, type MageInfo } from '@/db'
     import { IconSettings } from '@/components/icons'
     import Library from '@/components/menu/Library.vue'
@@ -55,6 +55,16 @@
         {},
         {},
     ])
+
+    const displayPfp = computed(() => {
+        if (!mage.value?.pfp) {
+          return ''
+        }
+        if (mage.value?.pfp instanceof File) {
+            return URL.createObjectURL(mage.value.pfp)
+        }
+        return mage.value?.pfp as string
+    })
     onMounted(async () => {
         const id = localStorage.getItem('activeMageId')
         if (id) {
